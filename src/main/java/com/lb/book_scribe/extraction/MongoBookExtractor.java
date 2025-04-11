@@ -1,9 +1,13 @@
 package com.lb.book_scribe.extraction;
 
 import com.lb.book_scribe.model.MongoBook;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Criteria;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MongoBookExtractor {
@@ -15,29 +19,31 @@ public class MongoBookExtractor {
     }
 
     public List<MongoBook> searchByTitle(String title) {
-        return repository.findByTitleContainingIgnoreCase(title);
+        return repository.findByVolumeInfoTitleContainingIgnoreCase(title);
     }
 
     public List<MongoBook> searchByTitleAndAuthor(String title, String author) {
-        return repository.findByTitleAndVolumeInfoAuthorsContainingIgnoreCase(title, author);
+        return repository.findByVolumeInfoTitleAndVolumeInfoAuthorsContainingIgnoreCase(title, author);
     }
 
-    public List<MongoBook> searchByYearRange(int from, int to) {
-        return repository.findByPublicationYearBetween(from, to);
+    public Optional<Integer> extractYear(String publishedDate) {
+        try {
+            return Optional.of(Integer.parseInt(publishedDate.substring(0, 4)));
+        } catch (Exception e) {
+            return Optional.empty(); // malformed or missing date
+        }
     }
 
-    public List<MongoBook> searchByYearAndAuthor(int from, int to, String author) {
-        return repository.findByPublicationYearBetweenAndVolumeInfoAuthorsContainingIgnoreCase(from, to, author);
+    public List<MongoBook> getBooksByPublishedDateRange(String fromYear, String toYear) {
+        return repository.findByPublishedDateBetween(fromYear, toYear);
     }
 
-    public List<MongoBook> searchByYearAndTitle(int from, int to, String title) {
-        return repository.findByPublicationYearBetweenAndTitleContainingIgnoreCase(from, to, title);
-    }
 
-    public List<MongoBook> searchByYearAuthorAndTitle(int from, int to, String author, String title) {
-        return repository.findByPublicationYearBetweenAndVolumeInfoAuthorsContainingIgnoreCaseAndTitleContainingIgnoreCase(
-                from, to, author, title
-        );
+
+    // Method to extract books by author and published date range (using Strings for consistency)
+    public List<MongoBook> searchByPublishedDateRangeAndAuthor(String author, String fromYear, String toYear) {
+        // Call the custom query method in MongoBookRepo
+        return repository.findByPublishedDateRangeAndAuthor(author, fromYear, toYear);
     }
 
 
