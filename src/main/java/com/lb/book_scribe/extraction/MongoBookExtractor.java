@@ -1,13 +1,11 @@
 package com.lb.book_scribe.extraction;
 
 import com.lb.book_scribe.model.MongoBook;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Criteria;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MongoBookExtractor {
@@ -45,6 +43,26 @@ public class MongoBookExtractor {
         // Call the custom query method in MongoBookRepo
         return repository.findByPublishedDateRangeAndAuthor(author, fromYear, toYear);
     }
+
+    //YOU STILL NEED TO TEST THIS METHOD!
+    // Method to search books by title, author, and published date range
+    public List<MongoBook> searchByTitleAuthorAndPublishedDateRange(
+            String title,
+            String author,
+            String fromYear,
+            String toYear) {
+        // Step 1: Search by title and author using repo method
+        List<MongoBook> books = repository.findByVolumeInfoTitleAndVolumeInfoAuthorsContainingIgnoreCase(title, author);
+
+        // Step 2: Filter books by published date range using the existing query in MongoBookRepo
+        return books.stream()
+                .filter(book -> {
+                    Optional<Integer> year = extractYear(book.getVolumeInfo().getPublishedDate());
+                    return year.isPresent() && year.get() >= Integer.parseInt(fromYear) && year.get() <=
+                            Integer.parseInt(toYear);
+                }).collect(Collectors.toList());
+    }
+
 
 
 }

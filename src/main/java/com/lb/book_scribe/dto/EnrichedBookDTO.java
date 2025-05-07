@@ -30,4 +30,32 @@ public class EnrichedBookDTO {
     private String infoLink;
     private String canonicalVolumeLink;
     private String sourceUrl;
+    private List<String> isbns;
+    private String description;
+
+    @Override
+    public String toString() {
+        return "EnrichedBookDTO {\n" +
+                "  title='" + title + "',\n" +
+                "  authors=" + authors + ",\n" +
+                "  editors=" + editors + ",\n" +
+                "  language='" + language + "',\n" +
+                "  format='" + format + "',\n" +
+                "  location='" + location + "',\n" +
+                "  inStock=" + inStock + ",\n" +
+                "  collections=" + collections + ",\n" +
+                "  originalLanguage='" + originalLanguage + "',\n" +
+                "  publicationYear=" + publicationYear + ",\n" +
+                "  historicalDate=" + historicalDate + ",\n" +
+                "  publisher='" + publisher + "',\n" +
+                "  others=" + others + ",\n" +
+                "  mongoId='" + mongoId + "',\n" +
+                "  infoLink='" + infoLink + "',\n" +
+                "  canonicalVolumeLink='" + canonicalVolumeLink + "',\n" +
+                "  sourceUrl='" + sourceUrl + "'\n" +
+                "  isbns='" + isbns + "'\n" +
+                "  description='" + description + "'\n" +
+                '}';
+    }
+
 }

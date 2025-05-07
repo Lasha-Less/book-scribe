@@ -10,17 +10,25 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
 
+@Component
 public class InfoLinkScraper {
 
     public ScrapedBookData scrape(String infoLink, String canonicalVolumeLink) {
         ScrapedBookData data = tryScrape(infoLink);
+        if (!isEmpty(data)) {
+            data.setSourceUrl(infoLink);
+        }
 
         if (isEmpty(data) && canonicalVolumeLink != null) {
             data = tryScrape(canonicalVolumeLink);
+            if (!isEmpty(data)) {
+                data.setSourceUrl(canonicalVolumeLink);
+            }
         }
 
         return data != null ? data : new ScrapedBookData();
@@ -53,6 +61,7 @@ public class InfoLinkScraper {
         data.setSummary(extractSummary(doc));
         data.setEditors(extractContributorsByLabels(doc, List.of("Editor", "Redacteur")));
         data.setTranslators(extractContributorsByLabels(doc, List.of("Translated by", "vertaald door")));
+        data.setIsbns(extractIsbns(doc));
 
 
         return data;
@@ -87,6 +96,17 @@ public class InfoLinkScraper {
         return List.of(); // not found
     }
 
+    private List<String> extractIsbns(Document doc) {
+        String bodyText = doc.body().text();
+        if (bodyText == null) return List.of();
+
+        return java.util.regex.Pattern.compile("(97[89][-\\s]?[\\d-]{10,16}|\\b\\d{9}[\\dX]\\b)")
+                .matcher(bodyText)
+                .results()
+                .map(mr -> mr.group().replaceAll("[^\\dX]", "")) // remove dashes, spaces
+                .distinct()
+                .toList();
+    }
 
 
     private boolean isEmpty(ScrapedBookData data) {

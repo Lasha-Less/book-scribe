@@ -38,13 +38,9 @@ public class MongoBook {
 
     @Data
     public static class AccessInfo {
-        private FormatAvailability epub;
-        private FormatAvailability pdf;
+        private boolean pdfAvailable;
+        private boolean epubAvailable;
     }
 
-    @Data
-    public static class FormatAvailability {
-        private boolean isAvailable;
-    }
 
 }

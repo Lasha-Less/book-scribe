@@ -11,6 +11,7 @@ public class InfoLinkScraperRunner {
         System.out.println("Summary:\n" + data.getSummary());
         System.out.println("\nEditors: " + data.getEditors());
         System.out.println("Translators: " + data.getTranslators());
+        System.out.println("ISBNs: " + data.getIsbns());
     }
 
     //TODO: 1. there are 11 rows in this table but when we run it only 10 is found.

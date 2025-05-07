@@ -10,4 +10,5 @@ public class ScrapedData {
     private List<String> translators;
     private List<String> categories;
     private String sourceUrl;
+    private List<String> isbns;
 }

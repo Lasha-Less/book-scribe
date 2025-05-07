@@ -10,4 +10,5 @@ public class ScrapedDataDTO {
     private List<String> translators;
     private String sourceUrl;
     private String summary;
+    private List<String> isbns;
 }
