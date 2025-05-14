@@ -40,8 +40,8 @@ public class GeminiEnrichmentService {
 
         dto.setOriginalLanguage(detectOriginalLanguage(dto));
         dto.setHistoricalDate(inferHistoricalDate(dto));
-        List<PersonRoleInputDTO> enriched = enrichContributors(dto);
-        dto.getOthers().addAll(enriched);
+//        List<PersonRoleInputDTO> enriched = enrichContributors(dto);
+//        dto.getOthers().addAll(enriched);
         fixAuthorAttribution(dto);
 
     }

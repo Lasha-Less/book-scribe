@@ -1,9 +1,6 @@
 package com.lb.book_scribe.enrichment;
 
-import com.lb.book_scribe.dto.EnrichedBookDTO;
-import com.lb.book_scribe.dto.InterfaceInputDTO;
-import com.lb.book_scribe.dto.MongoBookDTO;
-import com.lb.book_scribe.dto.ScrapedDataDTO;
+import com.lb.book_scribe.dto.*;
 import com.lb.book_scribe.extraction.MongoBookExtractor;
 import com.lb.book_scribe.mapper.MongoBookMapper;
 import com.lb.book_scribe.mapper.ScrapedDataMapper;
@@ -11,9 +8,9 @@ import com.lb.book_scribe.model.MongoBook;
 import com.lb.book_scribe.scraping.InfoLinkScraper;
 import com.lb.book_scribe.scraping.ScrapedBookData;
 import com.lb.book_scribe.selection.BookSelector;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import com.lb.book_scribe.transformation.MetadataTransformer;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,13 +25,17 @@ public class MetadataEnricherRunner implements CommandLineRunner {
     private final ScrapedDataMapper scrapedMapper;
     private final BookSelector bookSelector;
     private final GeminiEnrichmentService geminiEnrichmentService;
+    private final MetadataTransformer metadataTransformer;
 
     public MetadataEnricherRunner(
             MongoBookExtractor extractor,
             InfoLinkScraper scraper,
             MetadataEnricher enricher,
             MongoBookMapper mapper,
-            ScrapedDataMapper scrapedMapper, BookSelector bookSelector, GeminiEnrichmentService geminiEnrichmentService) {
+            ScrapedDataMapper scrapedMapper,
+            BookSelector bookSelector,
+            GeminiEnrichmentService geminiEnrichmentService,
+            MetadataTransformer metadataTransformer) {
         this.extractor = extractor;
         this.scraper = scraper;
         this.enricher = enricher;
@@ -42,6 +43,7 @@ public class MetadataEnricherRunner implements CommandLineRunner {
         this.scrapedMapper = scrapedMapper;
         this.bookSelector = bookSelector;
         this.geminiEnrichmentService = geminiEnrichmentService;
+        this.metadataTransformer = metadataTransformer;
     }
 
 
@@ -87,6 +89,18 @@ public class MetadataEnricherRunner implements CommandLineRunner {
 
         System.out.println();
         System.out.println("End of MetadataEnricherRunner...");
+
+        System.out.println();
+        System.out.println("Transformation");
+        BookInputDTO transformed = null;
+        try {
+            transformed = metadataTransformer.transform(enriched);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        System.out.println(transformed);
+
+
     }
 
 
