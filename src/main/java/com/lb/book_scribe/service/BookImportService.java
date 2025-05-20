@@ -4,9 +4,9 @@ import com.lb.book_scribe.dto.*;
 import com.lb.book_scribe.enrichment.MetadataEnricher;
 import com.lb.book_scribe.exception.BookNotFoundException;
 import com.lb.book_scribe.extraction.MongoBookExtractor;
-import com.lb.book_scribe.mapper.MongoBookMapper;
-import com.lb.book_scribe.mapper.ScrapedDataMapper;
-import com.lb.book_scribe.model.MongoBook;
+import com.lb.book_scribe.transformation.mapper.MongoBookMapper;
+import com.lb.book_scribe.transformation.mapper.ScrapedDataMapper;
+import com.lb.book_scribe.extraction.model.MongoBook;
 import com.lb.book_scribe.scraping.InfoLinkScraper;
 import com.lb.book_scribe.scraping.ScrapedBookData;
 import com.lb.book_scribe.selection.BookSelector;
@@ -25,6 +25,8 @@ public class BookImportService {
     private final BookSelector selector;
     private final MongoBookMapper mongoBookMapper;
     private final ScrapedDataMapper scrapedDataMapper;
+
+
     public BookImportService(MongoBookExtractor extractor,
                              InfoLinkScraper scraper,
                              MetadataEnricher enricher,

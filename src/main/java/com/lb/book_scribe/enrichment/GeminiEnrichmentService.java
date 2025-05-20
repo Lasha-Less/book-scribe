@@ -40,8 +40,6 @@ public class GeminiEnrichmentService {
 
         dto.setOriginalLanguage(detectOriginalLanguage(dto));
         dto.setHistoricalDate(inferHistoricalDate(dto));
-//        List<PersonRoleInputDTO> enriched = enrichContributors(dto);
-//        dto.getOthers().addAll(enriched);
         fixAuthorAttribution(dto);
 
     }
@@ -113,66 +111,6 @@ public class GeminiEnrichmentService {
 
         } catch (Exception e) {
             log.error("Failed to fix author attribution", e);
-        }
-    }
-
-
-    public List<PersonRoleInputDTO> enrichContributors(EnrichedBookDTO dto) {
-        if (!enrichmentEnabled) {
-            log.info("AI enrichment disabled via config");
-            return dto.getOthers();
-        }
-
-        String prompt = """
-        You are a metadata enrichment assistant.
-
-        Based on the following book description text, identify any people who contributed to the book, such as:
-        translators, illustrators, commentators, foreword writers, or essay contributors.
-
-        Do not include the main author. Focus only on additional contributors mentioned in the description.
-
-        Return each contributor as a JSON object with:
-        - "name": full name as a single string
-        - "role": specific contribution (e.g., "Translator", "Illustrator")
-
-        Return only a JSON array like this:
-        [
-          {"name": "Jane Smith", "role": "Foreword Writer"},
-          {"name": "John Doe", "role": "Contributor"}
-        ]
-
-        Description:
-        %s
-        """.formatted(safe(dto.getDescription()));
-
-        try {
-            log.info("Prompt to Gemini for contributor enrichment from description:\n{}", prompt);
-            String response = callGemini(prompt).block();
-            log.info("Gemini contributor response: {}", response);
-
-            String rawJson = extractPlainTextFromGeminiResponse(response);
-
-            List<Map<String, String>> rawList = objectMapper.readValue(
-                    rawJson, new TypeReference<>() {}
-            );
-
-            log.info("Parsed contributors before filtering: {}", rawList);
-
-            Set<String> existingNameRoles = Stream.of(
-                            dto.getAuthors(), dto.getEditors(), dto.getOthers()
-                    ).filter(Objects::nonNull)
-                    .flatMap(Collection::stream)
-                    .map(p -> p.getFullName() + "::" + safe(p.getRole()))
-                    .collect(Collectors.toSet());
-
-            return rawList.stream()
-                    .map(entry -> PersonNameParser.parse(entry.get("name"), entry.get("role")))
-                    .filter(p -> !existingNameRoles.contains(p.getFullName() + "::" + safe(p.getRole())))
-                    .toList();
-
-        } catch (Exception e) {
-            log.error("Failed to enrich contributors from description", e);
-            return dto.getOthers();
         }
     }
 

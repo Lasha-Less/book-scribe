@@ -1,6 +1,6 @@
 package com.lb.book_scribe.extraction;
 
-import com.lb.book_scribe.model.MongoBook;
+import com.lb.book_scribe.extraction.model.MongoBook;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

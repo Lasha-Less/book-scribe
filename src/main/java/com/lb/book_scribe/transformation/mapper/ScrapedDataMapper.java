@@ -1,4 +1,4 @@
-package com.lb.book_scribe.mapper;
+package com.lb.book_scribe.transformation.mapper;
 
 import com.lb.book_scribe.dto.ScrapedDataDTO;
 import com.lb.book_scribe.scraping.ScrapedBookData;

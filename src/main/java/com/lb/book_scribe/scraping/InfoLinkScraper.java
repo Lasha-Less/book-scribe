@@ -36,7 +36,7 @@ public class InfoLinkScraper {
 
 
 
-    private ScrapedBookData tryScrape(String url) {
+    ScrapedBookData tryScrape(String url) {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(url);
             try (CloseableHttpResponse response = client.execute(request)) {
@@ -109,7 +109,7 @@ public class InfoLinkScraper {
     }
 
 
-    private boolean isEmpty(ScrapedBookData data) {
+    boolean isEmpty(ScrapedBookData data) {
         if (data == null) return true;
 
         return isNullOrEmpty(data.getEditors()) &&

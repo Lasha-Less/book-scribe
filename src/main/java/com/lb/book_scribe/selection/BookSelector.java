@@ -1,6 +1,6 @@
 package com.lb.book_scribe.selection;
 
-import com.lb.book_scribe.model.MongoBook;
+import com.lb.book_scribe.extraction.model.MongoBook;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;

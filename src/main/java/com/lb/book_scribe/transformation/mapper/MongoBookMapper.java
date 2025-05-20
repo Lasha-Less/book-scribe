@@ -1,7 +1,7 @@
-package com.lb.book_scribe.mapper;
+package com.lb.book_scribe.transformation.mapper;
 
 import com.lb.book_scribe.dto.MongoBookDTO;
-import com.lb.book_scribe.model.MongoBook;
+import com.lb.book_scribe.extraction.model.MongoBook;
 import org.springframework.stereotype.Component;
 
 @Component

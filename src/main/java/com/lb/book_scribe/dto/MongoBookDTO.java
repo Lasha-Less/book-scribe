@@ -21,13 +21,5 @@ public class MongoBookDTO {
     private boolean pdfAvailable;
     private boolean epubAvailable;
 
-    //TODO below method is temporarily cut, correct and reinstate!
-//    public List<PersonRoleInputDTO> mapToPersonRole(List<String> names, String role) {
-//        if (names == null) return List.of();
-//        return names.stream()
-//                .map(name -> new PersonRoleInputDTO(name, role))
-//                .toList();
-//    }
-
 
 }

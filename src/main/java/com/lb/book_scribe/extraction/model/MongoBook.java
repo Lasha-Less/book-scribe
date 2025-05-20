@@ -1,4 +1,4 @@
-package com.lb.book_scribe.model;
+package com.lb.book_scribe.extraction.model;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
