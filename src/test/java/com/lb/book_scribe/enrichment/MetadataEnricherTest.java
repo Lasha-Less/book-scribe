@@ -25,9 +25,8 @@ class MetadataEnricherTest {
     void testEnrich_appliesAllSteps() {
         MongoBookDTO mongo = new MongoBookDTO();
         ScrapedDataDTO scraped = new ScrapedDataDTO();
-        InterfaceInputDTO input = new InterfaceInputDTO();
 
-        EnrichedBookDTO result = enricher.enrich(mongo, scraped, input);
+        EnrichedBookDTO result = enricher.enrich(mongo, scraped);
 
         assertNotNull(result);
         verify(mockGeminiService).enrichMetadata(result);

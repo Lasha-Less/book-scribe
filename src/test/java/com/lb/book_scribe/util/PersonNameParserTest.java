@@ -64,4 +64,15 @@ class PersonNameParserTest {
         assertEquals("Jean", result.getFirstName());
         assertEquals("Dupont", result.getLastName());
     }
+
+    @Test
+    void testParse_twoPartName_CharlesDarwin() {
+        PersonRoleInputDTO result = PersonNameParser.parse("Charles Darwin", "author");
+
+        assertNotNull(result);
+        assertEquals("Charles", result.getFirstName());
+        assertEquals("Darwin", result.getLastName());
+        assertEquals("author", result.getRole());
+    }
+
 }

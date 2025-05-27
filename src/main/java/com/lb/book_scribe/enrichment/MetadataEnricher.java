@@ -17,8 +17,7 @@ public class MetadataEnricher {
     }
 
     public EnrichedBookDTO enrich(MongoBookDTO mongoBook,
-                                  ScrapedDataDTO scrapedData,
-                                  InterfaceInputDTO interfaceInput) {
+                                  ScrapedDataDTO scrapedData) {
         EnrichedBookDTO dto = new EnrichedBookDTO();
 
         // Step 1: Populate from MongoBookDTO

@@ -62,7 +62,7 @@ public class BookImportService {
         ScrapedDataDTO scrapedDTO = scrapedDataMapper.toDto(rawScraped);
 
         // Step 5: Enrich
-        EnrichedBookDTO enrichedDTO = enricher.enrich(mongoDTO, scrapedDTO, new InterfaceInputDTO());
+        EnrichedBookDTO enrichedDTO = enricher.enrich(mongoDTO, scrapedDTO);
 
         // Step 6: Transform
         return transformer.transform(enrichedDTO);

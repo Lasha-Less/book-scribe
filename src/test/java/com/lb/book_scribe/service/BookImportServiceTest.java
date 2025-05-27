@@ -67,7 +67,7 @@ class BookImportServiceTest {
         when(scraper.scrape("infoLink", "canonicalLink")).thenReturn(scrapedData);
         when(mongoMapper.toDto(book)).thenReturn(mongoDto);
         when(scrapedMapper.toDto(scrapedData)).thenReturn(scrapedDto);
-        when(enricher.enrich(mongoDto, scrapedDto, new InterfaceInputDTO())).thenReturn(enrichedDto);
+        when(enricher.enrich(mongoDto, scrapedDto)).thenReturn(enrichedDto);
         when(transformer.transform(enrichedDto)).thenReturn(expected);
 
         // Execute
@@ -80,7 +80,7 @@ class BookImportServiceTest {
         verify(scraper).scrape("infoLink", "canonicalLink");
         verify(mongoMapper).toDto(book);
         verify(scrapedMapper).toDto(scrapedData);
-        verify(enricher).enrich(mongoDto, scrapedDto, new InterfaceInputDTO());
+        verify(enricher).enrich(mongoDto, scrapedDto);
         verify(transformer).transform(enrichedDto);
     }
 
@@ -103,7 +103,7 @@ class BookImportServiceTest {
         when(scraper.scrape(any(), any())).thenReturn(new ScrapedBookData());
         when(mongoMapper.toDto(any())).thenReturn(new MongoBookDTO());
         when(scrapedMapper.toDto(any())).thenReturn(new ScrapedDataDTO());
-        when(enricher.enrich(any(), any(), any())).thenReturn(new EnrichedBookDTO());
+        when(enricher.enrich(any(), any())).thenReturn(new EnrichedBookDTO());
         when(transformer.transform(any())).thenReturn(new BookInputDTO());
 
         BookInputDTO result = service.transformBook(title, author);

@@ -101,7 +101,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<version>4.6.0</version> <!-- or latest compatible with Spring Boot -->
+			<scope>test</scope>
+		</dependency>
 
 
 	</dependencies>
