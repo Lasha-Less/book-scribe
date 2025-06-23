@@ -12,6 +12,8 @@ public interface MongoBookRepo extends MongoRepository<MongoBook, String> {
 
     List<MongoBook> findByVolumeInfoTitleAndVolumeInfoAuthorsContainingIgnoreCase(String title, String author);
 
+    List<MongoBook> findByVolumeInfoTitleContainingIgnoreCaseAndVolumeInfoAuthorsContainingIgnoreCase(String title, String author);
+
     @Query("{'volumeInfo.publishedDate' : { $gte: ?0, $lte: ?1 } }")
     List<MongoBook> findByPublishedDateBetween(String fromYear, String toYear);
 

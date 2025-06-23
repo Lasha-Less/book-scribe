@@ -45,6 +45,12 @@ public class BookImportService {
     public BookInputDTO transformBook(String title, String author) throws IllegalAccessException {
         // Step 1: Try search by title + author
         List<MongoBook> candidates = extractor.searchByTitleAndAuthor(title, author);
+
+        //BEGIN TEST SCRIPT
+        System.out.println("CANDIDATES FROM searchByTitleAndAuthor:");
+        candidates.forEach(book -> System.out.println(" - " + book.getVolumeInfo().getTitle() + " by " +
+                book.getVolumeInfo().getAuthors()));
+
         MongoBook selected = selector.selectBestMatch(candidates)
                 .orElseGet(() -> {
                     // Step 2: Fallback to title-only search if no match

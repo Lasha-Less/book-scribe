@@ -21,7 +21,8 @@ public class MongoBookExtractor {
     }
 
     public List<MongoBook> searchByTitleAndAuthor(String title, String author) {
-        return repository.findByVolumeInfoTitleAndVolumeInfoAuthorsContainingIgnoreCase(title, author);
+        //return repository.findByVolumeInfoTitleAndVolumeInfoAuthorsContainingIgnoreCase(title, author);
+        return repository.findByVolumeInfoTitleContainingIgnoreCaseAndVolumeInfoAuthorsContainingIgnoreCase(title, author);
     }
 
     public Optional<Integer> extractYear(String publishedDate) {
